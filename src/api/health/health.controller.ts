@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { HealthService } from './health.service';
 import { ApiTags } from '@nestjs/swagger';
-import { EntityTags } from '../../core/entity.tags';
+import { EntityTags } from '../../enums/entity.tags';
 
 @ApiTags(EntityTags.HEALTH)
 @Controller(EntityTags.HEALTH)
