@@ -6,5 +6,5 @@ export const getSwaggerConfig = () =>
     .setTitle(SWAGGER_CONSTANT.TITLE)
     .setDescription(SWAGGER_CONSTANT.DESCRIPTION)
     .setVersion(SWAGGER_CONSTANT.VERSION)
-    .addBearerAuth() // Add JWT authentication if used
+    .addBearerAuth()
     .build();

@@ -1,9 +1,36 @@
 import { plainToClass } from 'class-transformer';
-import { IsNumber, validateSync } from 'class-validator';
+import { IsNumber, IsString, validateSync } from 'class-validator';
 
 class EnvironmentVariables {
   @IsNumber()
   PORT: number;
+
+  @IsNumber()
+  DB_PORT: number;
+
+  @IsString()
+  DB_USERNAME: string;
+
+  @IsString()
+  DB_PASSWORD: string;
+
+  @IsString()
+  DB_NAME: string;
+
+  @IsString()
+  DB_HOST: string;
+
+  @IsString()
+  DB_TYPE: string;
+
+  @IsNumber()
+  REDIS_PORT: number;
+
+  @IsString()
+  REDIS_HOST: string;
+
+  @IsString()
+  REDIS_PASSWORD: string;
 }
 
 export function validate(config: Record<string, unknown>) {
