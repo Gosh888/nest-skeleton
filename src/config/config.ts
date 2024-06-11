@@ -1,26 +1,28 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import 'dotenv/config';
-import { join } from 'path';
 
 export const PORT = process.env.PORT || 3000;
 
-export const REDIS_HOST = process.env.REDIS_HOST;
-export const REDIS_PORT = process.env.REDIS_PORT;
-export const REDIS_URL = `${REDIS_HOST}:${REDIS_PORT}`;
+export const REDIS = {
+  HOST: process.env.REDIS_HOST,
+  PORT: Number(process.env.REDIS_PORT),
+  PASSWORD: process.env.REDIS_PASSWORD,
+};
 
-export const configs = {
-  postgres: {
-    type: process.env.DB_TYPE,
-    host: process.env.DB_HOST,
-    port: +process.env.DB_PORT,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-    synchronize: true,
-  } as TypeOrmModuleOptions,
-  reteLimit: {
-    ttl: 60000,
-    limit: 100,
-  },
+export const POSTGRES = {
+  HOST: process.env.DB_HOST,
+  PORT: Number(process.env.DB_PORT),
+  USERNAME: process.env.DB_USERNAME,
+  PASSWORD: process.env.DB_PASSWORD,
+  DATABASE: process.env.DB_NAME,
+};
+
+export const CACHE_DURATION = {
+  TTL_MINUTES: 60,
+  TTL_HOURS: 3600,
+  TTL_DAYS: 86400,
+};
+
+export const RATE_LIMIT = {
+  ttl: 60000,
+  limit: 50,
 };

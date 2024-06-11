@@ -28,6 +28,9 @@ class EnvironmentVariables {
 
   @IsString()
   REDIS_HOST: string;
+
+  @IsString()
+  REDIS_PASSWORD: string;
 }
 
 export function validate(config: Record<string, unknown>) {

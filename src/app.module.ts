@@ -8,17 +8,18 @@ import { ResponseLoggingInterceptor } from './interceptors/request-logging/reque
 import { RequestLoggingMiddleware } from './middlewares/request-logging/request-logging.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppCacheModule } from './cache/cache.module';
-import { configs } from './config/config';
+import { getPostgresConfig } from './database/db';
+import { RATE_LIMIT } from './config/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(configs.postgres),
+    TypeOrmModule.forRoot(getPostgresConfig()),
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
       validate,
     }),
-    ThrottlerModule.forRoot([configs.reteLimit]),
+    ThrottlerModule.forRoot([RATE_LIMIT]),
     HealthModule,
     AppCacheModule,
   ],

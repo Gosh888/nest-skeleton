@@ -2,12 +2,6 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 
-export const cacheDuration = {
-  TTL_MINUTES: 60,
-  TTL_HOURS: 3600,
-  TTL_DAYS: 86400,
-};
-
 @Injectable()
 export class CacheService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
