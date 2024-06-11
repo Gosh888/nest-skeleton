@@ -1,15 +1,15 @@
 import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
+import { LOGGING } from '../../constants/comon.constant';
+import { LoggerTags } from '../../enums/logger.tags';
 
 @Injectable()
 export class RequestLoggingMiddleware implements NestMiddleware {
-  private logger = new Logger('RequestLogging');
+  private logger = new Logger(LoggerTags.REQUEST_LOGGING);
 
   use(req: Request, res: Response, next: NextFunction) {
     const { method, originalUrl, headers } = req;
-    this.logger.log(
-      `Request - Method: ${method}, URL: ${originalUrl}, Headers: ${JSON.stringify(headers)}`,
-    );
+    this.logger.log(LOGGING.requestText(method, originalUrl, headers));
     next();
   }
 }

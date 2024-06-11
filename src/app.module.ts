@@ -1,24 +1,19 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { HealthModule } from './api/health/health.module';
 import { ConfigModule } from '@nestjs/config';
-import { validate } from './config/env.validation';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseLoggingInterceptor } from './interceptors/request-logging/request-logging.interceptor';
 import { RequestLoggingMiddleware } from './middlewares/request-logging/request-logging.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppCacheModule } from './cache/cache.module';
-import { getPostgresConfig } from './database/db';
 import { RATE_LIMIT } from './config/config';
+import { getDotEnvConfig, getPostgresConfig } from './core/core.utils';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(getPostgresConfig()),
-    ConfigModule.forRoot({
-      envFilePath: '.env',
-      isGlobal: true,
-      validate,
-    }),
+    ConfigModule.forRoot(getDotEnvConfig()),
     ThrottlerModule.forRoot([RATE_LIMIT]),
     HealthModule,
     AppCacheModule,
