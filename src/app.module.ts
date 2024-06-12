@@ -5,7 +5,6 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseLoggingInterceptor } from './interceptors/request-logging/request-logging.interceptor';
 import { RequestLoggingMiddleware } from './middlewares/request-logging.middleware';
-import { MethodBlockMiddleware } from './middlewares/block-http-methods.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppCacheModule } from './cache/cache.module';
 import { RATE_LIMIT } from './config/config';
@@ -33,8 +32,6 @@ import { getDotEnvConfig, getPostgresConfig } from './core/core.utils';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(RequestLoggingMiddleware, MethodBlockMiddleware)
-      .forRoutes('*');
+    consumer.apply(RequestLoggingMiddleware).forRoutes('*');
   }
 }

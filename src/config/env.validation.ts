@@ -31,6 +31,9 @@ class EnvironmentVariables {
 
   @IsString()
   REDIS_PASSWORD: string;
+
+  @IsString()
+  CORS_ORIGIN: string;
 }
 
 export function validate(config: Record<string, unknown>) {

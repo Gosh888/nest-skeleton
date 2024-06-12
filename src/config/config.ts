@@ -26,3 +26,7 @@ export const RATE_LIMIT = {
   ttl: 60000,
   limit: 50,
 };
+
+export const CORS = {
+  ORIGIN: process.env.CORS_ORIGIN,
+};
