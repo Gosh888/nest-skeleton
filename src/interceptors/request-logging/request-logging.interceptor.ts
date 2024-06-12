@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LoggerTags } from '../../enums/logger.tags';
-import { LOGGING } from '../../constants/comon.constant';
+import { LOGGING } from '../../constants/common.constant';
 
 @Injectable()
 export class ResponseLoggingInterceptor implements NestInterceptor {
