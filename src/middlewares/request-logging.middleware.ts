@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { LOGGING } from '../../constants/common.constant';
-import { LoggerTags } from '../../enums/logger.tags';
+import { LOGGING } from '../constants/common.constant';
+import { LoggerTags } from '../enums/logger.tags';
 
 @Injectable()
 export class RequestLoggingMiddleware implements NestMiddleware {
