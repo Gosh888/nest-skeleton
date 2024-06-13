@@ -29,6 +29,6 @@ export const HTTP_STATUS_MESSAGES = {
   GATEWAY_TIMEOUT: 'Gateway Timeout',
 };
 
-export const ERROR_MESSAGES = {
+export const COMMON_ERROR_MESSAGES = {
   DECODE_TOKEN: 'Error decoding token',
 };

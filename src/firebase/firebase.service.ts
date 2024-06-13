@@ -1,6 +1,10 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  OnModuleInit,
+} from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import { FIREBASE_CONFIG } from 'src/config/config';
+import { getFirebaseConfig } from 'src/core/core.utils';
 
 @Injectable()
 export class FirebaseAdminService implements OnModuleInit {
@@ -9,14 +13,24 @@ export class FirebaseAdminService implements OnModuleInit {
   onModuleInit() {
     if (!FirebaseAdminService.instance) {
       FirebaseAdminService.instance = admin.initializeApp({
-        credential: admin.credential.cert(
-          FIREBASE_CONFIG as admin.ServiceAccount,
-        ),
+        credential: admin.credential.cert(getFirebaseConfig()),
       });
     }
   }
 
   getInstance(): admin.app.App {
     return FirebaseAdminService.instance;
+  }
+
+  async validateToken(token: string) {
+    try {
+      if (!token) return null;
+      const admin = this.getInstance();
+      const decodedToken = await admin.auth().verifyIdToken(token);
+      if (decodedToken) return decodedToken;
+      return null;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }
