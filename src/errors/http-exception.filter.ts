@@ -7,7 +7,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { HTTP_STATUS_MESSAGES } from 'src/constants/common.constant';
+import { getExceptionErrorMessage } from './error.utils';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -25,10 +25,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const message =
-      exception instanceof HttpException
-        ? exception.message
-        : HTTP_STATUS_MESSAGES.INTERNAL_SERVER_ERROR;
+    exception.response.message = [
+      exception.response?.message || exception.message,
+    ].flat();
+    const message = getExceptionErrorMessage(exception);
 
     const responseBody = {
       statusCode: httpStatus,
