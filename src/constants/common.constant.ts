@@ -11,5 +11,4 @@ export const LOGGING = {
     `Request - Method: ${method}, URL: ${url}, Headers: ${JSON.stringify(headers)}`,
   methodNotAllowed: (method) =>
     `Method: ${method}, Message: Method Not Allowed`,
-  METHOD_NOT_ALLOWED: 'Message: Method Not Allowed',
 };
