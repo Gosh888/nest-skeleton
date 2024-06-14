@@ -1,9 +1,10 @@
-import { POSTGRES } from '../config/config';
+import { FIREBASE, POSTGRES } from '../config/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { join } from 'path';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SWAGGER_CONSTANT } from '../constants/common.constant';
 import { validate } from '../config/env.validation';
+import { ServiceAccount } from 'firebase-admin';
 
 export const getPostgresConfig = (): TypeOrmModuleOptions => ({
   type: 'postgres',
@@ -29,3 +30,18 @@ export const getDotEnvConfig = () => ({
   isGlobal: true,
   validate,
 });
+
+export const getFirebaseConfig = () =>
+  ({
+    type: FIREBASE.TYPE,
+    project_id: FIREBASE.PROJECT_ID,
+    private_key_id: FIREBASE.PRIVATE_KEY_ID,
+    private_key: FIREBASE.PRIVATE_KEY,
+    client_email: FIREBASE.CLIENT_EMAIL,
+    client_id: FIREBASE.CLIENT_ID,
+    auth_uri: FIREBASE.AUTH_URI,
+    token_uri: FIREBASE.TOKEN_URI,
+    auth_provider_x509_cert_url: FIREBASE.AUTH_PROVIDER_X509_CERT_URL,
+    client_x509_cert_url: FIREBASE.CLIENT_X509_CERT_URL,
+    universe_domain: FIREBASE.UNIVERSE_DOMAIN,
+  }) as ServiceAccount;
