@@ -2,7 +2,7 @@ import { POSTGRES } from '../config/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { join } from 'path';
 import { DocumentBuilder } from '@nestjs/swagger';
-import { SWAGGER_CONSTANT } from '../constants/comon.constant';
+import { SWAGGER_CONSTANT } from '../constants/common.constant';
 import { validate } from '../config/env.validation';
 
 export const getPostgresConfig = (): TypeOrmModuleOptions => ({

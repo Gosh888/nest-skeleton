@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseLoggingInterceptor } from './interceptors/request-logging/request-logging.interceptor';
-import { RequestLoggingMiddleware } from './middlewares/request-logging/request-logging.middleware';
+import { RequestLoggingMiddleware } from './middlewares/request-logging.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppCacheModule } from './cache/cache.module';
 import { RATE_LIMIT } from './config/config';

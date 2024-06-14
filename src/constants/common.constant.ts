@@ -9,4 +9,6 @@ export const LOGGING = {
     `Response - Status: ${statusCode}, Elapsed Time: ${elapsedTime}ms`,
   requestText: (method, url, headers) =>
     `Request - Method: ${method}, URL: ${url}, Headers: ${JSON.stringify(headers)}`,
+  methodNotAllowed: (method) =>
+    `Method: ${method}, Message: Method Not Allowed`,
 };
