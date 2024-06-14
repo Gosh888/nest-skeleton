@@ -5,6 +5,7 @@ import { DocumentBuilder } from '@nestjs/swagger';
 import { SWAGGER_CONSTANT } from '../constants/common.constant';
 import { validate } from '../config/env.validation';
 import { ServiceAccount } from 'firebase-admin';
+import { ClassValidatorError } from '../errors/errors';
 
 export const getPostgresConfig = (): TypeOrmModuleOptions => ({
   type: 'postgres',
@@ -45,3 +46,13 @@ export const getFirebaseConfig = () =>
     client_x509_cert_url: FIREBASE.CLIENT_X509_CERT_URL,
     universe_domain: FIREBASE.UNIVERSE_DOMAIN,
   }) as ServiceAccount;
+
+export const getValidationPipeConfig = () => ({
+  exceptionFactory: (errors) => {
+    const result = errors.map((error) => ({
+      property: error.property,
+      message: error.constraints[Object.keys(error.constraints)[0]],
+    }));
+    return new ClassValidatorError(result);
+  },
+});
