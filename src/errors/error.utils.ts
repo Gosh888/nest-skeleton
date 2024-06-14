@@ -1,5 +1,4 @@
 import { HttpException } from '@nestjs/common';
-// import { HTTP_STATUS_MESSAGES } from 'src/constants/common.constant';
 
 export const getExceptionErrorMessage = (exception) => {
   let message: string;
