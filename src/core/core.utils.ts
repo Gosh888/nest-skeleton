@@ -1,4 +1,4 @@
-import { FIREBASE, POSTGRES } from '../config/config';
+import { FIREBASE, POSTGRES, FIREBASE_CLIENT } from '../config/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { join } from 'path';
 import { DocumentBuilder } from '@nestjs/swagger';
@@ -32,7 +32,7 @@ export const getDotEnvConfig = () => ({
   validate,
 });
 
-export const getFirebaseConfig = () =>
+export const getFirebaseAdminConfig = () =>
   ({
     type: FIREBASE.TYPE,
     project_id: FIREBASE.PROJECT_ID,
@@ -46,6 +46,16 @@ export const getFirebaseConfig = () =>
     client_x509_cert_url: FIREBASE.CLIENT_X509_CERT_URL,
     universe_domain: FIREBASE.UNIVERSE_DOMAIN,
   }) as ServiceAccount;
+
+export const getFirebaseClientConfig = () => ({
+  apiKey: FIREBASE_CLIENT.APP_KEY,
+  authDomain: FIREBASE_CLIENT.AUTH_DOMAIN,
+  projectId: FIREBASE_CLIENT.PROJECT_ID,
+  storageBucket: FIREBASE_CLIENT.STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_CLIENT.MESSAGING_SENDER_ID,
+  appId: FIREBASE_CLIENT.APP_ID,
+  measurementId: FIREBASE_CLIENT.MEASUREMENT_ID,
+});
 
 export const getValidationPipeConfig = () => ({
   exceptionFactory: (errors) => {

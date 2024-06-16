@@ -4,7 +4,7 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import { getFirebaseConfig } from 'src/core/core.utils';
+import { getFirebaseAdminConfig } from 'src/core/core.utils';
 
 @Injectable()
 export class FirebaseAdminService implements OnModuleInit {
@@ -13,7 +13,7 @@ export class FirebaseAdminService implements OnModuleInit {
   onModuleInit() {
     if (!FirebaseAdminService.instance) {
       FirebaseAdminService.instance = admin.initializeApp({
-        credential: admin.credential.cert(getFirebaseConfig()),
+        credential: admin.credential.cert(getFirebaseAdminConfig()),
       });
     }
   }

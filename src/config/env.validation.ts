@@ -67,6 +67,27 @@ class EnvironmentVariables {
 
   @IsString()
   FIREBASE_UNIVERSE_DOMAIN: string;
+
+  @IsString()
+  FIREBASE_CLIENT_APP_KEY: string;
+
+  @IsString()
+  FIREBASE_CLIENT_AUTH_DOMAIN: string;
+
+  @IsString()
+  FIREBASE_CLIENT_PROJECT_ID: string;
+
+  @IsString()
+  FIREBASE_CLIENT_STORAGE_BUCKET: string;
+
+  @IsString()
+  FIREBASE_CLIENT_MESSAGING_SENDER_ID: string;
+
+  @IsString()
+  FIREBASE_CLIENT_APP_ID: string;
+
+  @IsString()
+  FIREBASE_CLIENT_MEASUREMENT_ID: string;
 }
 
 export function validate(config: Record<string, unknown>) {
