@@ -31,4 +31,5 @@ export const HTTP_STATUS_MESSAGES = {
 
 export const COMMON_ERROR_MESSAGES = {
   DECODE_TOKEN: 'Error decoding token',
+  EMAIL_NOT_VERIFIED: 'Email not verified',
 };

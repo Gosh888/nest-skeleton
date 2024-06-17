@@ -40,6 +40,11 @@ export const FIREBASE_CLIENT = {
   MEASUREMENT_ID: process.env.FIREBASE_CLIENT_MEASUREMENT_ID,
 };
 
+export const REFRESH_TOKEN = {
+  URL: `${process.env.FIREBASE_SECURE_TOKEN_URL}/v1/token?key=${FIREBASE_CLIENT.APP_KEY}`,
+  TYPE: process.env.FIREBASE_REFRESH_TOKEN_TYPE,
+};
+
 export const CACHE_DURATION = {
   TTL_MINUTES: 60,
   TTL_HOURS: 3600,

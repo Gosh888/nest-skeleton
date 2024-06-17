@@ -88,6 +88,12 @@ class EnvironmentVariables {
 
   @IsString()
   FIREBASE_CLIENT_MEASUREMENT_ID: string;
+
+  @IsString()
+  FIREBASE_SECURE_TOKEN_URL: string;
+
+  @IsString()
+  FIREBASE_REFRESH_TOKEN_TYPE: string;
 }
 
 export function validate(config: Record<string, unknown>) {

@@ -7,20 +7,24 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signInWithEmailAndPassword,
+  UserCredential,
 } from '@firebase/auth';
-import { ForbiddenError } from '../errors/errors'; // Import Auth
+import { ForbiddenError } from '../errors/errors';
+import { COMMON_ERROR_MESSAGES } from 'src/constants/common.constant';
+import { plainToClass } from 'class-transformer';
+import { UserDto } from 'src/api/auth/dto/user.dto';
 
 @Injectable()
 export class FirebaseClientService implements OnModuleInit {
   private static instance: FirebaseApp;
-  private static authInstance: Auth; // Add this line
+  private static authInstance: Auth;
 
   onModuleInit() {
     if (!FirebaseClientService.instance) {
       FirebaseClientService.instance = initializeApp(getFirebaseClientConfig());
       FirebaseClientService.authInstance = getAuth(
         FirebaseClientService.instance,
-      ); // Initialize auth
+      );
     }
   }
 
@@ -29,7 +33,6 @@ export class FirebaseClientService implements OnModuleInit {
   }
 
   getAuthInstance(): Auth {
-    // Add this method
     return FirebaseClientService.authInstance;
   }
 
@@ -42,7 +45,7 @@ export class FirebaseClientService implements OnModuleInit {
         password,
       );
       await sendEmailVerification(userCredential.user);
-      return userCredential.user;
+      return this.mapUserData(userCredential);
     } catch (e) {
       throw new ForbiddenError(e.message);
     }
@@ -54,13 +57,13 @@ export class FirebaseClientService implements OnModuleInit {
   ) => {
     try {
       const auth = this.getAuthInstance();
-
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password,
       );
-      return userCredential.user;
+
+      return this.mapUserData(userCredential);
     } catch (e) {
       throw new ForbiddenError(e.message);
     }
@@ -69,8 +72,14 @@ export class FirebaseClientService implements OnModuleInit {
   signInAndSendVerification = async (email: string, password: string) => {
     const user = await this.signInWithEmailAndPasswordOrFail(email, password);
     if (!user.emailVerified) {
-      throw new ForbiddenError('Email not verified');
+      throw new ForbiddenError(COMMON_ERROR_MESSAGES.EMAIL_NOT_VERIFIED);
     }
     return user;
   };
+
+  mapUserData(userCredential: UserCredential) {
+    return plainToClass(UserDto, userCredential.user.toJSON(), {
+      excludeExtraneousValues: true,
+    });
+  }
 }

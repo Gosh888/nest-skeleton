@@ -4,10 +4,11 @@ import { ApiProperty } from '@nestjs/swagger';
 export class SignUpDto {
   @ApiProperty()
   @IsEmail()
+  @IsString()
   email: string;
 
   @ApiProperty()
-  @IsString()
   @MinLength(6)
+  @IsString()
   password: string;
 }
