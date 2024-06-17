@@ -12,7 +12,7 @@ import {
 import { ForbiddenError } from '../errors/errors';
 import { COMMON_ERROR_MESSAGES } from 'src/constants/common.constant';
 import { plainToClass } from 'class-transformer';
-import { UserDto } from 'src/api/auth/dto/user.dto';
+import { AuthUserDto } from 'src/api/auth/dto/auth-user.dto';
 
 @Injectable()
 export class FirebaseClientService implements OnModuleInit {
@@ -78,7 +78,7 @@ export class FirebaseClientService implements OnModuleInit {
   };
 
   mapUserData(userCredential: UserCredential) {
-    return plainToClass(UserDto, userCredential.user.toJSON(), {
+    return plainToClass(AuthUserDto, userCredential.user.toJSON(), {
       excludeExtraneousValues: true,
     });
   }
