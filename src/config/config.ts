@@ -43,6 +43,7 @@ export const FIREBASE_CLIENT = {
 export const REFRESH_TOKEN = {
   URL: `${process.env.FIREBASE_SECURE_TOKEN_URL}/v1/token?key=${FIREBASE_CLIENT.APP_KEY}`,
   TYPE: process.env.FIREBASE_REFRESH_TOKEN_TYPE,
+  COOKIE_SECURE: process.env.NODE_ENV === 'production',
 };
 
 export const CACHE_DURATION = {
@@ -57,5 +58,6 @@ export const RATE_LIMIT = {
 };
 
 export const CORS = {
-  ORIGIN: process.env.CORS_ORIGIN,
+  ORIGIN:
+    process.env.NODE_ENV === 'production' ? process.env.CORS_ORIGIN : true,
 };

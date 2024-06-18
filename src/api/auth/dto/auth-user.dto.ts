@@ -1,7 +1,7 @@
 import { Expose, Transform } from 'class-transformer';
 import { IsBoolean, IsString } from 'class-validator';
 
-export class AuthUserDto {
+export class AuthResponseDto {
   @Expose()
   @IsString()
   email: string;

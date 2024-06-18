@@ -1,4 +1,4 @@
-import { FIREBASE, POSTGRES, FIREBASE_CLIENT } from '../config/config';
+import { FIREBASE, POSTGRES, FIREBASE_CLIENT, CORS, REFRESH_TOKEN } from '../config/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { join } from 'path';
 import { DocumentBuilder } from '@nestjs/swagger';
@@ -6,6 +6,23 @@ import { SWAGGER_CONSTANT } from '../constants/common.constant';
 import { validate } from '../config/env.validation';
 import { ServiceAccount } from 'firebase-admin';
 import { ClassValidatorError } from '../errors/errors';
+import { CookieOptions } from 'express';
+
+export const getCorsConfig = () => ({
+  origin: CORS.ORIGIN,
+  methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Authorization',
+    'X-SharedEditing',
+    'Content-Length',
+    'Content-Type',
+    'Origin',
+  ],
+  exposedHeaders: ['X-Total-Count'],
+  credentials: true,
+  optionsSuccessStatus: 200,
+  maxAge: -1,
+});
 
 export const getPostgresConfig = (): TypeOrmModuleOptions => ({
   type: 'postgres',
@@ -65,4 +82,11 @@ export const getValidationPipeConfig = () => ({
     }));
     return new ClassValidatorError(result);
   },
+});
+
+export const getRefreshTokenCookieConfig = (): CookieOptions => ({
+  maxAge: 30 * 24 * 60 * 60 * 1000,
+  httpOnly: true,
+  sameSite: 'strict',
+  secure: REFRESH_TOKEN.COOKIE_SECURE,
 });

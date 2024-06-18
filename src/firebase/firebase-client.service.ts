@@ -7,12 +7,9 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signInWithEmailAndPassword,
-  UserCredential,
 } from '@firebase/auth';
 import { ForbiddenError } from '../errors/errors';
 import { COMMON_ERROR_MESSAGES } from 'src/constants/common.constant';
-import { plainToClass } from 'class-transformer';
-import { AuthUserDto } from 'src/api/auth/dto/auth-user.dto';
 
 @Injectable()
 export class FirebaseClientService implements OnModuleInit {
@@ -45,7 +42,7 @@ export class FirebaseClientService implements OnModuleInit {
         password,
       );
       await sendEmailVerification(userCredential.user);
-      return this.mapUserData(userCredential);
+      return userCredential;
     } catch (e) {
       throw new ForbiddenError(e.message);
     }
@@ -63,23 +60,20 @@ export class FirebaseClientService implements OnModuleInit {
         password,
       );
 
-      return this.mapUserData(userCredential);
+      return userCredential;
     } catch (e) {
       throw new ForbiddenError(e.message);
     }
   };
 
   signInAndSendVerification = async (email: string, password: string) => {
-    const user = await this.signInWithEmailAndPasswordOrFail(email, password);
-    if (!user.emailVerified) {
+    const userCredential = await this.signInWithEmailAndPasswordOrFail(
+      email,
+      password,
+    );
+    if (!userCredential.user.emailVerified) {
       throw new ForbiddenError(COMMON_ERROR_MESSAGES.EMAIL_NOT_VERIFIED);
     }
-    return user;
+    return userCredential;
   };
-
-  mapUserData(userCredential: UserCredential) {
-    return plainToClass(AuthUserDto, userCredential.user.toJSON(), {
-      excludeExtraneousValues: true,
-    });
-  }
 }

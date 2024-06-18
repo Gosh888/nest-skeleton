@@ -1,29 +1,20 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule } from '@nestjs/swagger';
-import { CORS, PORT } from './config/config';
-import { getSwaggerConfig, getValidationPipeConfig } from './core/core.utils';
+import { PORT } from './config/config';
+import {
+  getCorsConfig,
+  getSwaggerConfig,
+  getValidationPipeConfig,
+} from './core/core.utils';
 import { AllExceptionsFilter } from './errors/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: CORS.ORIGIN,
-    methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: [
-      'Authorization',
-      'X-SharedEditing',
-      'Content-Length',
-      'Content-Type',
-      'Origin',
-    ],
-    exposedHeaders: ['X-Total-Count'],
-    credentials: true,
-    optionsSuccessStatus: 200,
-    maxAge: -1,
-  });
-
+  app.enableCors(getCorsConfig());
+  app.use(cookieParser());
   const httpAdapterHost = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapterHost));
   app.useGlobalPipes(new ValidationPipe(getValidationPipeConfig()));

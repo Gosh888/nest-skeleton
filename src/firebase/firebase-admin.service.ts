@@ -39,13 +39,11 @@ export class FirebaseAdminService implements OnModuleInit {
 
   async refreshToken(refreshToken: string) {
     try {
-      const {
-        data: { access_token: accessToken },
-      } = await axios.post(REFRESH_TOKEN.URL, {
+      const { data } = await axios.post(REFRESH_TOKEN.URL, {
         grant_type: REFRESH_TOKEN.TYPE,
         refresh_token: refreshToken,
       });
-      return { accessToken };
+      return data;
     } catch {
       throw new UnauthorizedError();
     }
