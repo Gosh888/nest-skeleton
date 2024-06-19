@@ -1,0 +1,79 @@
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { initializeApp, FirebaseApp } from 'firebase/app';
+import { getFirebaseClientConfig } from 'src/core/core.utils';
+import {
+  getAuth,
+  Auth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from '@firebase/auth';
+import { ForbiddenError } from '../errors/errors';
+import { COMMON_ERROR_MESSAGES } from 'src/constants/common.constant';
+
+@Injectable()
+export class FirebaseClientService implements OnModuleInit {
+  private static instance: FirebaseApp;
+  private static authInstance: Auth;
+
+  onModuleInit() {
+    if (!FirebaseClientService.instance) {
+      FirebaseClientService.instance = initializeApp(getFirebaseClientConfig());
+      FirebaseClientService.authInstance = getAuth(
+        FirebaseClientService.instance,
+      );
+    }
+  }
+
+  getInstance(): FirebaseApp {
+    return FirebaseClientService.instance;
+  }
+
+  getAuthInstance(): Auth {
+    return FirebaseClientService.authInstance;
+  }
+
+  async createFirebaseUser(email: string, password: string) {
+    try {
+      const auth = this.getAuthInstance();
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      await sendEmailVerification(userCredential.user);
+      return userCredential;
+    } catch (e) {
+      throw new ForbiddenError(e.message);
+    }
+  }
+
+  signInWithEmailAndPasswordOrFail = async (
+    email: string,
+    password: string,
+  ) => {
+    try {
+      const auth = this.getAuthInstance();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+
+      return userCredential;
+    } catch (e) {
+      throw new ForbiddenError(e.message);
+    }
+  };
+
+  signInAndSendVerification = async (email: string, password: string) => {
+    const userCredential = await this.signInWithEmailAndPasswordOrFail(
+      email,
+      password,
+    );
+    if (!userCredential.user.emailVerified) {
+      throw new ForbiddenError(COMMON_ERROR_MESSAGES.EMAIL_NOT_VERIFIED);
+    }
+    return userCredential;
+  };
+}

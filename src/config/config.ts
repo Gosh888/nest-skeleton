@@ -30,6 +30,22 @@ export const FIREBASE = {
   UNIVERSE_DOMAIN: process.env.FIREBASE_UNIVERSE_DOMAIN,
 };
 
+export const FIREBASE_CLIENT = {
+  APP_KEY: process.env.FIREBASE_CLIENT_APP_KEY,
+  AUTH_DOMAIN: process.env.FIREBASE_CLIENT_AUTH_DOMAIN,
+  PROJECT_ID: process.env.FIREBASE_CLIENT_PROJECT_ID,
+  STORAGE_BUCKET: process.env.FIREBASE_CLIENT_STORAGE_BUCKET,
+  MESSAGING_SENDER_ID: process.env.FIREBASE_CLIENT_MESSAGING_SENDER_ID,
+  APP_ID: process.env.FIREBASE_CLIENT_APP_ID,
+  MEASUREMENT_ID: process.env.FIREBASE_CLIENT_MEASUREMENT_ID,
+};
+
+export const REFRESH_TOKEN = {
+  URL: `${process.env.FIREBASE_SECURE_TOKEN_URL}/v1/token?key=${FIREBASE_CLIENT.APP_KEY}`,
+  TYPE: process.env.FIREBASE_REFRESH_TOKEN_TYPE,
+  COOKIE_SECURE: process.env.NODE_ENV === 'production',
+};
+
 export const CACHE_DURATION = {
   TTL_MINUTES: 60,
   TTL_HOURS: 3600,
@@ -42,5 +58,6 @@ export const RATE_LIMIT = {
 };
 
 export const CORS = {
-  ORIGIN: process.env.CORS_ORIGIN,
+  ORIGIN:
+    process.env.NODE_ENV === 'production' ? process.env.CORS_ORIGIN : true,
 };

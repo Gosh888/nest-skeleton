@@ -2,6 +2,7 @@ export const SWAGGER_CONSTANT = {
   TITLE: 'My NestJS API',
   DESCRIPTION: 'API documentation for my NestJS application',
   VERSION: '1.0',
+  COOKIE: 'refreshToken',
 };
 
 export const LOGGING = {
@@ -31,4 +32,11 @@ export const HTTP_STATUS_MESSAGES = {
 
 export const COMMON_ERROR_MESSAGES = {
   DECODE_TOKEN: 'Error decoding token',
+  EMAIL_NOT_VERIFIED: 'Email not verified',
+  PASSWORD:
+    'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter and number.',
+};
+
+export const REG_EXP = {
+  VALIDATE_PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
 };

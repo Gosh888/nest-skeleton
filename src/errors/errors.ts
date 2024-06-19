@@ -31,7 +31,10 @@ export class InternalServerError extends CustomError {
 }
 
 export class UnauthorizedError extends CustomError {
-  constructor(message: string, internalCode?: number) {
+  constructor(
+    message: string = HTTP_STATUS_MESSAGES.UNAUTHORIZED,
+    internalCode?: number,
+  ) {
     const statusCode = 401;
     const property = null;
     super([{ message, property }], statusCode, internalCode);
@@ -42,6 +45,18 @@ export class UnauthorizedError extends CustomError {
 export class BadRequestError extends CustomError {
   constructor(message: string, internalCode?: number) {
     const statusCode = 400;
+    const property = null;
+    super([{ message, property }], statusCode, internalCode);
+    this.name = this.constructor.name;
+  }
+}
+
+export class ForbiddenError extends CustomError {
+  constructor(
+    message: string = HTTP_STATUS_MESSAGES.FORBIDDEN,
+    internalCode?: number,
+  ) {
+    const statusCode = 403;
     const property = null;
     super([{ message, property }], statusCode, internalCode);
     this.name = this.constructor.name;

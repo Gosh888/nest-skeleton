@@ -3,8 +3,11 @@ import {
   InternalServerErrorException,
   OnModuleInit,
 } from '@nestjs/common';
+import axios from 'axios';
 import * as admin from 'firebase-admin';
-import { getFirebaseConfig } from 'src/core/core.utils';
+import { REFRESH_TOKEN } from 'src/config/config';
+import { getFirebaseAdminConfig } from 'src/core/core.utils';
+import { UnauthorizedError } from 'src/errors/errors';
 
 @Injectable()
 export class FirebaseAdminService implements OnModuleInit {
@@ -13,7 +16,7 @@ export class FirebaseAdminService implements OnModuleInit {
   onModuleInit() {
     if (!FirebaseAdminService.instance) {
       FirebaseAdminService.instance = admin.initializeApp({
-        credential: admin.credential.cert(getFirebaseConfig()),
+        credential: admin.credential.cert(getFirebaseAdminConfig()),
       });
     }
   }
@@ -31,6 +34,18 @@ export class FirebaseAdminService implements OnModuleInit {
       return null;
     } catch (error) {
       throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  async refreshToken(refreshToken: string) {
+    try {
+      const { data } = await axios.post(REFRESH_TOKEN.URL, {
+        grant_type: REFRESH_TOKEN.TYPE,
+        refresh_token: refreshToken,
+      });
+      return data;
+    } catch {
+      throw new UnauthorizedError();
     }
   }
 }

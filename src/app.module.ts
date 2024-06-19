@@ -9,16 +9,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppCacheModule } from './cache/cache.module';
 import { RATE_LIMIT } from './config/config';
 import { getDotEnvConfig, getPostgresConfig } from './core/core.utils';
-// import { FirebaseModule } from './firebase/firebase.module';
+import { AuthModule } from './api/auth/auth.module';
+import { UsersModule } from './api/users/users.module';
+import { FirebaseModule } from './firebase/firebase.module';
 
 @Module({
   imports: [
+    AppCacheModule,
     TypeOrmModule.forRoot(getPostgresConfig()),
     ConfigModule.forRoot(getDotEnvConfig()),
     ThrottlerModule.forRoot([RATE_LIMIT]),
+    FirebaseModule,
     HealthModule,
-    AppCacheModule,
-    // FirebaseModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [
